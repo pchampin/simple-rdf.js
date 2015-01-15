@@ -1,0 +1,24 @@
+{
+  "name": "simple-rdf.js",
+  "version": "0.0.0",
+  "description": "A simple interface and implementation for RDF graphs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pchampin/simple-rdf.js"
+  },
+  "keywords": [
+    "rdf"
+  ],
+  "author": "Pierre-Antoine Champin <http://champin.net>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pchampin/simple-rdf.js/issues"
+  },
+  "dependencies": {
+    "promise": "^6.1.0"
+  }
+}
