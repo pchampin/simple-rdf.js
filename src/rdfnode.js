@@ -1,18 +1,16 @@
 // jshint node: true
 var assert = require('assert');
 
+var RDF_LANGSTRING = "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString";
 var XSD_BOOLEAN = "http://www.w3.org/2001/XMLSchema#boolean";
 var XSD_DOUBLE = "http://www.w3.org/2001/XMLSchema#double";
 var XSD_INTEGER = "http://www.w3.org/2001/XMLSchema#integer";
+var XSD_STRING = "http://www.w3.org/2001/XMLSchema#string";
 
 exports.iri = function(iristr) {
     return { '@id': iristr };
 };
 var iri = exports.iri;
-
-exports.bnode = function(bnodeid) {
-    return { '@id': '_:'+bnodeid };
-};
 
 exports.namespace = function(iristr) {
     if (typeof iristr === 'object') { // also accept iri nodes
@@ -23,6 +21,22 @@ exports.namespace = function(iristr) {
     };
 };
 
+exports.bnode = function(bnodeid) {
+    if (bnodeid === undefined) {
+        // TODO coin a fresh bnodeid
+        throw "not implemented yet";
+    }
+    return { '@id': '_:'+bnodeid };
+};
+
+exports.langstring = function(value, language) {
+    return {
+        '@value': value,
+        '@language': language,
+        '@type': RDF_LANGSTRING
+    };
+};
+
 exports.canonicalize = function(n) {
     var typeofn = typeof n;
     if(typeofn === 'object') {
@@ -30,7 +44,7 @@ exports.canonicalize = function(n) {
         return n;
         // TODO should we be more strict ?
     } else if (typeofn === 'string') {
-        return { "@value": n };
+        return { "@value": n, "@type":  XSD_STRING };
     } else if (typeofn === 'boolean') {
         return { "@value": String(n), "@type": XSD_BOOLEAN };
     } else if (typeofn === 'number') {
