@@ -45,3 +45,11 @@ g.addTriple(Person, label, labelP);
 // so the following is also possible
 g.addTriple(me, label, "pchampin"); 
 
+// ******** Serialize ********
+var nt = require('../src/serializers/nt.js').nt;
+nt(g, function(line) { console.log(line); }).done();
+
+console.log('\n\n');
+
+var jsonld = require('../src/serializers/jsonld.js').jsonld;
+jsonld(g, function(line) { console.log(line); }).done();

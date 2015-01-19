@@ -62,25 +62,28 @@ exports.toNT = function(n) {
     if (id !== undefined) {
         var id = n['@id'];
         if (id[0] === '_') {
-            return id;
+            ret = id;
         } else {
-            return '<' + id + '>';
+            ret = '<' + id + '>';
         }
     } else {
         var value = n['@value'];
         assert(value !== undefined);
         // TODO JSON escaping may not be strictly equivalent to NT escaping
-        var ret = JSON.stringigy(value);
+        var ret = JSON.stringify(value);
         var datatype = n['@type'];
-        if (datatype !== undefined) {
-            ret += '^^<' + datatype + '>';
-        } else {
+        if (datatype === XSD_STRING) {
+            // LEAVE DATATYPE IMPLICIT
+        } else if (datatype === RDF_LANGSTRING) {
             var language = n['@language'];
             if (language !== undefined) {
                 ret += '@' + language;
             }
+        } else {
+            ret += '^^<' + datatype + '>';
         }
     }
+    return ret;
 };
 
 exports.sameNode = function(n1, n2) {
