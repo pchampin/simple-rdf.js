@@ -27,20 +27,19 @@ var p = getParser({
     contentType:'application/debug+json',
     graph: graph()
 });
-var s1 = getSerializer({
+var serializeToJson = getSerializer({
     contentType:'application/debug+json',
     graph: g
 });
 
-s1(function(line){
-    p.addChunk(line);
-}).then(function() {
-    return p.finalize();
-}).then(function(parsedGraph) {
-    var s2 = getSerializer({
-        contentType: 'application/n-triples',
-        graph: parsedGraph
-    });
-    return s2(function(line) { console.log(line); });
-}).done();
+serializeToJson(function(line){ p.addChunk(line); })
+    .then(function() {
+        return p.finalize();
+    }).then(function(parsedGraph) {
+        var serializeToNT = getSerializer({
+            contentType: 'application/n-triples',
+            graph: parsedGraph
+        });
+        return serializeToNT(function(line) { console.log(line); });
+    }).done();
 
