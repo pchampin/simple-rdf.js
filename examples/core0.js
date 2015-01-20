@@ -1,6 +1,6 @@
 // jshint node: true
 
-var BasicCore = require('../src/cores/basic.js').BasicCore;
+var getCore = require('../src/cores/factory.js').getCore;
 var graph = require('../src/graph.js').graph;
 var iri = require('../src/rdfnode.js').iri;
 var namespace = require('../src/rdfnode.js').namespace;
@@ -9,7 +9,7 @@ var nt = require('../src/serializers/nt.js').nt;
 var me = iri('http://champin.net/#pa');
 var ns = namespace('http://ex.co/vocab#');
 
-var bc = new BasicCore(me, graph());
+var bc = getCore(me);
 
 bc.getState().then(function(g) {
     return nt(g, console.log);
