@@ -169,3 +169,9 @@ exports.copyGraph = function(g1, g2) {
         );
     });
 };
+
+
+exports.readonlyWrapper = function(g) {
+    // TODO implement this correctly
+    return g;
+};

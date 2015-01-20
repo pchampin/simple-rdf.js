@@ -2,6 +2,7 @@
 
 var Promise = require('promise');
 var copyGraph = require('../graph.js').copyGraph;
+var readonlyWrapper = require('../graph.js').readonlyWrapper;
 
 var MAX_AGE_REGEX = /max-age=([0-9]+)/;
 
@@ -15,7 +16,7 @@ var BasicCore = function(iri, graph) {
 
     that.getState = function(forceRefresh) {
         // Promises an RDF graph representing the current state of the core.
-        return Promise.resolve(graph);
+        return Promise.resolve(readonlyWrapper(graph));
     };
 
     that.edit = function(editor) {
