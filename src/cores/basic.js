@@ -14,7 +14,7 @@ var BasicCore = function(iri, graph) {
     that.iri = iri;
     that._graph = graph;
 
-    var _editLevel = 0;
+    var _editDepth = 0;
     var _editableGraph;
 
     that.getState = function(forceRefresh) {
@@ -36,8 +36,8 @@ var BasicCore = function(iri, graph) {
            stability: 3
         */
         var p;
-        _editLevel += 1;
-        if (_editLevel === 1) {
+        _editDepth += 1;
+        if (_editDepth === 1) {
             //console.log('---', 'copying graph');
             p = copyGraph(graph)
                 .then(function(copiedGraph) {
@@ -56,8 +56,8 @@ var BasicCore = function(iri, graph) {
                 );
         }
         p.then(function() {
-            _editLevel -= 1;
-            if (_editLevel === 0) _editableGraph = null;
+            _editDepth -= 1;
+            if (_editDepth === 0) _editableGraph = null;
         });
         return p;
     };
