@@ -33,7 +33,7 @@ register({
     serializer: jsonld
 });
 register({
-    contentType: 'application/application+json',
+    contentType: 'application/ld+json',
     serializer: jsonld
 });
 register({
