@@ -1,5 +1,7 @@
 // jshint node: true
 
+var Promise = require('promise');
+
 var graph = require('../src/graph.js').graph;
 var bnode = require('../src/rdfnode.js').bnode;
 var canonicalize = require('../src/rdfnode.js').canonicalize;
@@ -18,8 +20,17 @@ require('../src/serializers/nt.js'); // ensures that serializer is registered
 var me = iri('http://champin.net/#pa');
 var ns = namespace('http://ex.co/vocab#');
 var g = graph();
-g.addTriple(me, ns('type'), ns('Person'));
-g.addTriple(me, ns('label'), "Pierre-Antoine Champin"); 
+var prom = Promise.all([
+    g.addTriple(me, ns('type'), ns('Person')),
+    g.addTriple(me, ns('label'), "Pierre-Antoine Champin"),
+])
+/*
+    .then(g.countTriples)
+    .then(function(count) {
+        console.log('# %j triple(s)', count);
+    })
+*/
+;
 
 /******** serialize graph as debug+json, parse it back, and serialize it to NT ********/
 
@@ -32,14 +43,22 @@ var serializeToJson = getSerializer({
     graph: g
 });
 
-serializeToJson(function(line){ p.addChunk(line); })
+prom
+    .then(function() {
+        return serializeToJson(function(line){ 
+            //console.log('# ' + line);
+            p.addChunk(line);
+        });
+    })
     .then(function() {
         return p.finalize();
-    }).then(function(parsedGraph) {
+    })
+    .then(function(parsedGraph) {
         var serializeToNT = getSerializer({
             contentType: 'application/n-triples',
             graph: parsedGraph
         });
         return serializeToNT(function(line) { console.log(line); });
-    }).done();
+    })
+    .done();
 

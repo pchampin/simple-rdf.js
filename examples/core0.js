@@ -15,8 +15,12 @@ bc.getState().then(function(g) {
     return nt(g, console.log);
 }).then(function() {
     return bc.edit(function(g) {
-        g.addTriple(me, ns('type'), ns('Person'));
-        g.addTriple(me, ns('label'), "Pierre-Antoine Champin");
+        return g.addTriple(me, ns('type'), ns('Person'))
+            .then(function() {
+                bc.edit(function(g2) {
+                    return g2.addTriple(me, ns('label'), "Pierre-Antoine Champin")
+                });
+            });
     })
 }).then(function(g) {
     console.log('----\n');
