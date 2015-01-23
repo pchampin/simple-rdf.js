@@ -225,3 +225,5 @@ exports.readonlyWrapper = function(g) {
     // TODO implement this correctly
     return g;
 };
+
+// TODO alternative to readonlyWrapper: cowWrapper (Copy On Write) ?
