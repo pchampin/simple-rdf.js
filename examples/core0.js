@@ -18,10 +18,10 @@ bc.getState().then(function(g) {
         return g.addTriple(me, ns('type'), ns('Person'))
             .then(function() {
                 bc.edit(function(g2) {
-                    return g2.addTriple(me, ns('label'), "Pierre-Antoine Champin")
+                    return g2.addTriple(me, ns('label'), "Pierre-Antoine Champin");
                 });
             });
-    })
+    });
 }).then(function(g) {
     console.log('----\n');
     return nt(g, console.log);
